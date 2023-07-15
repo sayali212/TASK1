@@ -1,0 +1,104 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// Bank Account class
+class BankAccount {
+private:
+    string accountNumber;
+    string accountHolderName;
+    double balance;
+
+public:
+    BankAccount(const string& accNum, const string& accHolder, double initialBalance)
+        : accountNumber(accNum), accountHolderName(accHolder), balance(initialBalance) {}
+
+    // Deposit funds into the account
+    void deposit(double amount) {
+        balance += amount;
+        cout << "Deposit successful. Current balance: " << balance << endl;
+    }
+
+    // Withdraw funds from the account
+    void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            cout << "Withdrawal successful. Current balance: " << balance << endl;
+        } else {
+            cout << "Insufficient balance." << endl;
+        }
+    }
+
+    // Get the account balance
+    double getBalance() const {
+        return balance;
+    }
+
+    // Get the account number
+    string getAccountNumber() const {
+        return accountNumber;
+    }
+
+    // Get the account holder's name
+    string getAccountHolderName() const {
+        return accountHolderName;
+    }
+};
+
+// Bank class
+class Bank {
+private:
+    vector<BankAccount> accounts;
+
+public:
+    // Add a new bank account
+    void addAccount(const string& accNum, const string& accHolder, double initialBalance) {
+        BankAccount newAccount(accNum, accHolder, initialBalance);
+        accounts.push_back(newAccount);
+        cout << "Account created successfully." << endl;
+    }
+
+    // Find a bank account by account number
+    BankAccount* findAccount(const string& accNum) {
+        for (auto& account : accounts) {
+            if (account.getAccountNumber() == accNum) {
+                return &account;
+            }
+        }
+        return nullptr;
+    }
+};
+
+int main() {
+    Bank bank;
+
+    // Add some sample accounts
+    bank.addAccount("A123", "John Doe", 1000);
+    bank.addAccount("B456", "Jane Smith", 2000);
+
+    // Perform operations on the accounts
+    string accNum;
+    cout << "Enter account number: ";
+    cin >> accNum;
+
+    BankAccount* account = bank.findAccount(accNum);
+    if (account != nullptr) {
+        cout << "Account holder: " << account->getAccountHolderName() << endl;
+        cout << "Account balance: " << account->getBalance() << endl;
+
+        double amount;
+        cout << "Enter amount to deposit: ";
+        cin >> amount;
+        account->deposit(amount);
+
+        cout << "Enter amount to withdraw: ";
+        cin >> amount;
+        account->withdraw(amount);
+    } else {
+        cout << "Account not found." << endl;
+    }
+
+    return 0;
+}
