@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// Class representing a food item
+class FoodItem {
+private:
+    string name;
+    double price;
+
+public:
+    FoodItem(const string& itemName, double itemPrice) : name(itemName), price(itemPrice) {}
+
+    string getName() const {
+        return name;
+    }
+
+    double getPrice() const {
+        return price;
+    }
+};
+
+// Class representing a cafe
+class Cafe {
+private:
+    string name;
+    vector<FoodItem> menu;
+
+public:
+    Cafe(const string& cafeName) : name(cafeName) {}
+
+    void addItem(const string& itemName, double itemPrice) {
+        FoodItem newItem(itemName, itemPrice);
+        menu.push_back(newItem);
+        cout << "Item added to the menu." << endl;
+    }
+
+    void displayMenu() const {
+        cout << "Menu for " << name << ":" << endl;
+        for (const auto& item : menu) {
+            cout << item.getName() << " - $" << item.getPrice() << endl;
+        }
+    }
+};
+
+int main() {
+    // Create a cafe object
+    Cafe myCafe("My Cafe");
+
+    // Add items to the menu
+    myCafe.addItem("Coffee", 2.5);
+    myCafe.addItem("Sandwich", 5.0);
+    myCafe.addItem("Cake", 3.75);
+
+    // Display the menu
+    myCafe.displayMenu();
+
+    return 0;
+}
+
+
